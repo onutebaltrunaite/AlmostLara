@@ -1,5 +1,10 @@
 {
     "name": "baltr/almost-lara",
     "description": "Almost Lara MVC learning",
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    }
 }
