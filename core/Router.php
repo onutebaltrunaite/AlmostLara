@@ -13,17 +13,21 @@ class Router
 {
     /**
      * This will hold all routes.
-     * 
+     *
      * routes [
-     * ['get' => [
-    * ['/' => function return,],
-    * ['/about' => function return,],
+     * ['get'  => [
+     *  ['/' => function return,],
+     *  ['/about' => function return,],
+     * ],
+     * ['post' => [
+     *  ['/' => function return,],
+     *  ['/about' => function return,],
      * ]]
-     * ['/' => function return,],
-     * ['/about' => function return,],
-     * 
+     * ]
+     *
+     *
      * ];
-     * 
+     *
      * @var array
      */
 
@@ -42,7 +46,7 @@ class Router
     public function resolve()
     {
         echo "<pre>";
-        var_dump($this->routes);
+        var_dump($_SERVER);
         echo "</pre>";
         exit;
     }
