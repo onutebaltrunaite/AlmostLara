@@ -42,17 +42,29 @@ class Router
         $this->request = $request;
     }
 
+    /**
+     * Add get route and callback fn to routes array
+     *
+     * @param string $path
+     * @param  $callback
+     * @return void
+     */
     public function get($path, $callback)
     {
         $this->routes['get'][$path] = $callback;
     }
     
+    /**
+     * executes user fn if it is set in routes array
+     *
+     * @return void
+     */
     public function resolve()
     {
         $path = $this->request->getPath();
         $method = $this->request->getMethod();
 
-        
+
 
         // trying to run route from routes array
         $callback = $this->routes[$method][$path] ?? false;
