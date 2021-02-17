@@ -18,10 +18,19 @@ namespace app\core;
     public function getPath()
     {
         $path = $_SERVER['REQUEST_URI'] ?? '/AlmostLara/';
+
         $questionPosition = strpos($path, '?');
-        echo "<pre>";
-        var_dump($questionPosition);
-        echo "</pre>";
-        exit;
+
+        if ($questionPosition !== false) :
+            $path = substr($path, 0, $questionPosition);
+        endif;
+
+        return $path;
+
+
+        // echo "<pre>";
+        // var_dump($questionPosition);
+        // echo "</pre>";
+        // exit;
     }
  }
