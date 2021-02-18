@@ -15,4 +15,12 @@ $app->router->get('/', 'home');
 
 $app->router->get('/about', 'about');
 
+
+$app->router->get('/contact', 'contact');
+// we create post path
+$app->router->post('/contact', function () {
+    return "Handling contact from Post request";
+});
+
+
 $app->run();
