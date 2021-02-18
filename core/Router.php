@@ -53,6 +53,17 @@ class Router
     }
 
     /**
+     * This creates post path and handling in routes array
+     *
+     * @param $path
+     * 
+     */
+    public function post($path, $callback)
+    {
+        $this->routes['post'][$path] = $callback;
+    }
+
+    /**
      * Executes user function if it is set in routes array
      */
     public function resolve()
@@ -130,6 +141,8 @@ class Router
         // stop and return buffering
         return ob_get_clean();
     }
+
+ 
 
 
 }
