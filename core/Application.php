@@ -22,11 +22,17 @@ class Application
     public static string $ROOT_DIR;
     public Router $router;
     public Request $request;
+    public Response $response;
+    // a away to get this app's properties and methods where we need them
+    public static Application $app;
 
     public function __construct($rootPath)
     {
         // static property assignment
         self::$ROOT_DIR = $rootPath;
+        self::$app = $this;
+
+        $this->response = new Response();
         $this->request = new Request();
         $this->router = new Router($this->request);
     }
