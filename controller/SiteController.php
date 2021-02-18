@@ -6,6 +6,21 @@ use app\core\Application;
 class SiteController
 {
     /**
+     * This handles home page get request
+     *
+     * @return string
+     */
+    public static function home()
+    {
+        $params = [
+            'name' => "Almost Lara",
+            'subtitle' => "This is a nice way to learn PHP"
+        ];
+
+        return Application::$app->router->renderView('home', $params);  
+    }
+
+    /**
      * This serves the contact form view
      *
      * @return string
