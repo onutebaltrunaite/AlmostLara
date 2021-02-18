@@ -83,7 +83,8 @@ class Router
         if ($callback === false) :
             // 404
             $this->response->setResponseCode(404);
-            echo "Page doesnt exists";
+            return $this->renderView('404');
+            // echo "Page doesnt exists";
             die();
         endif;
 
