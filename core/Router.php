@@ -71,10 +71,10 @@ class Router
         $path = $this->request->getPath();
         $method = $this->request->getMethod();
 
-       echo "<pre>";
-       var_dump($this->routes);
-       echo "</pre>";
-       exit;
+    //    echo "<pre>";
+    //    var_dump($this->routes);
+    //    echo "</pre>";
+    //    exit;
 
         // trying to run a route from routes array
         $callback = $this->routes[$method][$path] ?? false;
