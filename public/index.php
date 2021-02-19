@@ -18,6 +18,12 @@ $app->router->get('/about', [SiteController::class, 'about']);
 
 
 $app->router->get('/contact', [SiteController::class, 'contact']);
+
+
+$app->router->get('/fn', function () {
+    return 56 + 76;
+});
+
 // we create post path
 $app->router->post('/contact', [SiteController::class, 'handleContact']);
 

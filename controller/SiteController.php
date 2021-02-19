@@ -1,23 +1,27 @@
 <?php
 
 namespace app\controller;
-use app\core\Application;
 
-class SiteController
+use app\core\Application;
+use app\core\Controller;
+use app\core\Request;
+
+
+class SiteController extends Controller
 {
     /**
      * This handles home page get request
      *
      * @return string
      */
-    public static function home()
+    public function home()
     {
         $params = [
             'name' => "Almost Lara",
             'subtitle' => "This is a nice way to learn PHP"
         ];
 
-        return Application::$app->router->renderView('home', $params);  
+        return $this->render('home', $params);  
     }
 
 
@@ -27,20 +31,15 @@ class SiteController
      *
      * @return string
      */
-    public static function about()
+    public function about()
     {
         $params = [
             'version' => "1.0.0",
         ];
         // lets render view
-        return Application::$app->router->renderView('about', $params);
+        return $this->render('about', $params);
 
     }
-
-
-
-
-
 
 
 
@@ -49,10 +48,10 @@ class SiteController
      *
      * @return string
      */
-    public static function contact()
+    public function contact()
     {
         // lets render view
-        return Application::$app->router->renderView('contact');
+        return $this->render('contact');
 
     }
 
@@ -61,8 +60,15 @@ class SiteController
      *
      * @return string
      */
-    public static function handleContact()
+    public function handleContact(Request $request)
     {
+        // we use get body method to see user input
+        $body = $request->getBody();
+
+        echo "<pre>";
+        var_dump($body);
+        echo "</pre>";
+        exit;
         return "handling form from site controller handle for method";
     }
 
