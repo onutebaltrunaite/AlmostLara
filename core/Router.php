@@ -69,7 +69,7 @@ class Router
     public function resolve()
     {
         $path = $this->request->getPath();
-        $method = $this->request->getMethod();
+        $method = $this->request->method();
 
     //    echo "<pre>";
     //    var_dump($this->routes);
