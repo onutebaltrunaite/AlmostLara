@@ -144,14 +144,7 @@ class Router
         foreach ($params as $key => $value) :
             $$key = $value;
 
-
-
         endforeach;
-
-       
-
-
-
 
         // echo "<pre>";
         // print_r($params);
