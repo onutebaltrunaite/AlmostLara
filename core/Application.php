@@ -25,6 +25,7 @@ class Application
     public Response $response;
     // a away to get this app's properties and methods where we need them
     public static Application $app;
+    public Controller $controller;
 
     public function __construct($rootPath)
     {
@@ -42,4 +43,16 @@ class Application
         echo $this->router->resolve();
 
     }
+
+    public function getController(): Controller
+    {
+        return $this->controller;
+    }
+
+    public function setController(Controller $controller) : void
+    {
+        $this->controller = $controller;
+    }
+
+    
 }
