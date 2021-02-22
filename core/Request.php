@@ -29,6 +29,13 @@ class Request
             $path = substr($path, 0, $questionPosition);
         endif;
 
+
+        if (strlen($path) > 1) :
+            $path = rtrim($path, '/');
+        endif;
+
+
+
         return $path;
     }
 
