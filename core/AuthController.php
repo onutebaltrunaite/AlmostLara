@@ -3,6 +3,9 @@
 
 namespace app\core;
 
+use app\model\UserModel;
+
+
 /**
  * Respossible for handling login and register.
  *
@@ -12,10 +15,12 @@ namespace app\core;
 class AuthController extends Controller
 {
     public Validation $vld;
+    protected UserModel $userModel;
 
     public function __construct()
     {
         $this->vld = new Validation();
+        $this->userModel = new UserModel();
     }
 
     public function login()
@@ -81,7 +86,7 @@ class AuthController extends Controller
                     // set flash msg
 //                    flash('register_success', 'You have registered successfully');
                     // header("Location: " . URLROOT . "/users/login");
-                    redirect('/login');
+                    // redirect('/login');
                 } else {
                     die('Something went wrong in adding user to db');
                 }
