@@ -4,16 +4,23 @@
 namespace app\core;
 
 /**
- * responsible for handling register and login
- * 
- * 
- * 
+ * Respossible for handling login and register.
+ *
+ * Class AuthController
+ * @package app\core
  */
 class AuthController extends Controller
 {
+    public Validation $vld;
+
+    public function __construct()
+    {
+        $this->vld = new Validation();
+    }
+
     public function login()
     {
-        // have ability to change layout
+        // have ability to change laout
         $this->setLayout('auth');
         return $this->render('login');
     }
@@ -21,13 +28,70 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         if ($request->isGet()) :
-            $this->setLayout('auth');
-            return $this->render('register');
+//            $this->setLayout('auth');
+
+            // create data
+            $data = [
+                'name'      => '',
+                'email'     => '',
+                'password'  => '',
+                'confirmPassword' => '',
+                'errors' => [
+                    'nameErr'      => '',
+                    'emailErr'     => '',
+                    'passwordErr'  => '',
+                    'confirmPasswordErr' => '',
+                ],
+                'currentPage' => 'register',
+            ];
+
+
+
+            return $this->render('register', $data);
         endif;
 
         if ($request->isPost()) :
-            return "Validating form";
+
+            // reques is post and we need to pull user data
+            $data = $request->getBody();
+
+            $data['errors']['nameErr'] = $this->vld->validateName($data['name']);
+
+//            $data['errors']['emailErr'] = $this->vld->validateEmail($data['email'], $this->userModel);
+            $data['errors']['emailErr'] = $this->vld->validateEmail($data['email']);
+
+            $data['errors']['passwordErr'] = $this->vld->validatePassword($data['password'], 6, 10);
+
+            $data['errors']['confirmPasswordErr'] = $this->vld->confirmPassword($data['confirmPassword']);
+
+            // if there are no errors
+            if ($this->vld->ifEmptyArr($data['errors'])) :
+
+                // echo "<pre>";
+                // var_dumb("there r no errors");
+                // echo "</pre>";
+                // exit;
+                
+                // hash password // save way to store pass
+                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+                // create user
+                if ($this->userModel->register($data)) {
+                    // success user added
+                    // set flash msg
+//                    flash('register_success', 'You have registered successfully');
+                    // header("Location: " . URLROOT . "/users/login");
+                    redirect('/login');
+                } else {
+                    die('Something went wrong in adding user to db');
+                }
+
+            endif;
+
+
+
+
+            return $this->render('register', $data);
         endif;
-      
     }
 }
