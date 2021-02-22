@@ -1,7 +1,9 @@
 {
     "name": "baltr/almost-lara",
     "description": "Almost Lara MVC learning",
-    "require": {},
+    "require": {
+        "vlucas/phpdotenv": "^5.3"
+    },
     "autoload": {
         "psr-4": {
             "app\\": "./"
