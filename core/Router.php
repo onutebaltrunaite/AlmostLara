@@ -133,11 +133,15 @@ class Router
      */
     protected function layoutContent()
     {
-        $layout = Application::$app->controller->layout;
+        if (isset(Application::$app->controller)) :
+            $layout = Application::$app->controller->layout;
+        else :
+            $layout = 'main';
+        endif;
+
         // start buffering
         ob_start();
         include_once Application::$ROOT_DIR . "/view/layout/$layout.php";
-      
         // stop and return buffering
         return ob_get_clean();
 
