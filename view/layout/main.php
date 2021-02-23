@@ -23,10 +23,20 @@
       <a class="nav-item nav-link" href="/about">About</a>
       <a class="nav-item nav-link" href="/contact">Contact</a>
     </div>
+    <!-- when not logged in -->
+    <?php if(!\app\core\Session::isUserLoggedIn()) : ?>
     <div class="navbar-nav ml-auto">
       <a class="nav-item nav-link" href="/register">Register</a>
       <a class="nav-item nav-link" href="/login">Login</a>
     </div>
+    <?php else : ?>
+<!-- when ogged in -->
+    <div class="navbar-nav ml-auto">
+    <a class="nav-item nav-link disabled" href="#"><?php echo $_SESSION['user_email']; ?></a>
+      <a class="nav-item nav-link" href="/logout">Logout</a>
+    </div>
+    <?php endif; ?>
+
   </div>
 </nav>
 
