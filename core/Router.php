@@ -120,9 +120,12 @@ class Router
     {
         $layout = $this->layoutContent();
         $page = $this->pageContent($view, $params);
-//        echo $page;
+//        echo $page
+
+
         // take layout and replace the {{content}} with the $page content
         return str_replace('{{content}}', $page, $layout);
+
 
         //
     }

@@ -57,5 +57,6 @@ $app->router->post('/register', [AuthController::class, 'register']);
 
 $app->router->get('/posts', [PostsController::class, 'index']);
 
+// $app->router->get('/post/{id}', [PostsController::class, 'post']);
 
 $app->run();
