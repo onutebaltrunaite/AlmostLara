@@ -76,7 +76,7 @@ class Validation
         // check email format
         if (filter_var($field, FILTER_VALIDATE_EMAIL) === false) return "Please check your email";
 
-        if ($userModel !== nulll):
+        if ($userModel !== null):
         // if email already exists
         if ($userModel->findUserByEmail($field)) return 'Email already taken';
         endif;
