@@ -1,9 +1,11 @@
 <?php
 
 
-namespace app\core\Application;
-namespace app\core\Validation;
+namespace app\model;
 
+
+use app\core\Application;
+use app\core\Database;
 
 class PostModel
 {
@@ -19,7 +21,7 @@ class PostModel
     public function getPosts()
     {
         $sql = "SELECT posts.title, posts.body, users.name, users.email,
-        posts.id as postId,
+        posts.post_id as postId,
         users.id as userId,
         posts.created_at as postCreated,
         users.created_at as userCreated
@@ -46,7 +48,7 @@ class PostModel
         $this->db->bind(':body', $data['body']);
         $this->db->bind(':user_id', $data['user_id']);
 
-        // make query 
+        // make query
         if ($this->db->execute()) {
             return true;
         } else {
@@ -81,7 +83,7 @@ class PostModel
         $this->db->bind(':body', $data['body']);
         $this->db->bind(':post_id', $data['post_id']);
 
-        // make query 
+        // make query
         if ($this->db->execute()) {
             return true;
         } else {
@@ -97,13 +99,11 @@ class PostModel
         // add values
         $this->db->bind(':post_id', $id);
 
-        // make query 
+        // make query
         if ($this->db->execute()) {
             return true;
         } else {
             return false;
         }
     }
-
-
 }

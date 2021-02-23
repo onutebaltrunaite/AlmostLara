@@ -1,9 +1,12 @@
 <?php
 
+
 namespace app\controller;
+
 
 use app\core\Controller;
 use app\core\Request;
+use app\model\PostModel;
 
 class PostsController extends Controller
 {
@@ -11,22 +14,21 @@ class PostsController extends Controller
 
     public function __construct()
     {
-        $THIS->POSTmODEL = NEW PostModel();
-
+        $this->postModel = new PostModel();
     }
-    public function index()
+
+    public function index(Request $request)
     {
-        // get posts 
+        // get posts
         $posts = $this->postModel->getPosts();
+
         $data = [
             'posts' => $posts,
         ];
         return $this->render('posts/posts', $data);
-
-       
     }
-}
 
+}
 
 
 // CREATE TABLE `almost_lara`.`posts` ( `post_id` INT NOT NULL AUTO_INCREMENT , `title` VARCHAR(150) NOT NULL , `body` TEXT NOT NULL , `created_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `user_id` INT NOT NULL , PRIMARY KEY (`post_id`)) ENGINE = InnoDB;
