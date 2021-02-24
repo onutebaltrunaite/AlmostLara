@@ -59,6 +59,6 @@ $app->router->get('/logout', [AuthController::class, 'logout']);
 
 $app->router->get('/posts', [PostsController::class, 'index']);
 
-// $app->router->get('/post/{id}', [PostsController::class, 'post']);
+$app->router->get('/post/{id}', [PostsController::class, 'post']);
 
 $app->run();
