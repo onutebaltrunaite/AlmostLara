@@ -22,7 +22,7 @@ class Router
      * ],
      * ['post' => [
      *  ['/' => function return,],
-     *  ['/about' => function return,],
+     *  ['/contact' => function return,],
      * ]]
      * ]
      *
@@ -53,16 +53,17 @@ class Router
         //"/post/{id}"
         if (strpos($path, '{')):
             $startPos = strpos($path, '{');
-            $endPos = strpos($path, '}'); 
-            $argName = substr($path, $startPos + 1, $endPos - $startPos - 1);   
+            $endPos = strpos($path, '}');
+            $argName = substr($path, $startPos + 1, $endPos - $startPos - 1);
             $callback['urlParamName'] = $argName;
-            $path = substr($path, 0, $startPos - 1);
+            $path = substr($path, 0, $startPos -1);
 
-        // echo "<pre>";
-        // var_dump($path);
-        // var_dump($this->routes);
-        // echo "</pre>";
-       
+//        echo "<pre>";
+//        var_dump($path);
+////        var_dump($this->routes);
+//        echo "</pre>";
+//        exit;
+
         endif;
 
 
@@ -70,10 +71,10 @@ class Router
     }
 
     /**
-     * This creates post path and handling in routes array
+     * This creates post path and handling in routes array.
      *
      * @param $path
-     * 
+     * @param $callback
      */
     public function post($path, $callback)
     {
@@ -88,27 +89,32 @@ class Router
         $path = $this->request->getPath();
         $method = $this->request->method();
 
-    //    echo "<pre>";
-    //    print_r($path);
-    //    echo "</pre>";
-    //    exit;
+        // path = "/post/1" take argument value 1
+        // path = "/post" skip path argument take
+        // extract 1
+
+        $pathArr = explode('/', ltrim($path, '/'));
+
+        if (count($pathArr) > 1) :
+            $path = '/' . $pathArr[0];
+            $urlParam['value'] = $pathArr[1];
+        endif;
+
+
 
         // trying to run a route from routes array
         $callback = $this->routes[$method][$path] ?? false;
 
-        // echo "<pre>";
-        // var_dump($this->routes);
-
-        // echo "</pre>";
-        // exit;
+//        echo "<pre>";
+//        print_r($this->routes);
+//        echo "</pre>";
+//        exit;
 
         // if there is no such route added, we say not exist
         if ($callback === false) :
             // 404
             $this->response->setResponseCode(404);
-            return $this->renderView('404');
-            // echo "Page doesnt exists";
-            die();
+            return $this->renderView('_404');
         endif;
 
         // if our callback value is string
@@ -117,54 +123,55 @@ class Router
             return $this->renderView($callback);
         endif;
 
-        // if our callback array we handle it with class intance
+        // if our callback is array we handle it whith class instance
         if (is_array($callback)) :
             $instance = new $callback[0];
             Application::$app->controller = $instance;
             $callback[0] = Application::$app->controller;
 
-            //check if we have url arguments in callback array
+            // check if we have url arguments in callback array
             if (isset($callback['urlParamName'])) :
-
-                $urlParamName = $callback['urlParamName'];
+                //     [0] => app\controller\PostsController
+//                    [1] => post
+//                    [urlParamName] => id
+                $urlParam['name'] = $callback['urlParamName'];
                 // make call back array with 2 members
                 array_splice($callback, 2, 1);
-
             endif;
+
         endif;
 
-        // echo "<pre>";
-        // print_r($callback);
-        // echo "</pre>";
-        // exit;
 
         // page dose exsist we call user function
-        return call_user_func($callback, $this->request, $urlParamName ?? null);
+//        $urlParam = [
+//            'value' => 32,
+//            'name' => 'id'
+//        ];
+        return call_user_func($callback, $this->request, $urlParam ?? null);
 
     }
+
     /**
      * Renders the page and applies the layout
      *
      * @param string $view
-     * @return string/string[]
+     * @return string|string[]
      */
     public function renderView(string $view, array $params = [])
     {
         $layout = $this->layoutContent();
         $page = $this->pageContent($view, $params);
-//        echo $page
-
-
+//        echo $page;
         // take layout and replace the {{content}} with the $page content
         return str_replace('{{content}}', $page, $layout);
 
-
         //
     }
+
     /**
-     * 
-     * Returns the layoutHTML content
-     * @return false/string
+     * Returns the layout HTML content
+     *
+     * @return false|string
      */
     protected function layoutContent()
     {
@@ -181,29 +188,25 @@ class Router
         return ob_get_clean();
 
     }
+
     /**
      * Returns only the given page HTML content
      *
-     * @param  $view
-     * @return false/srting
+     * @param $view
+     * @param $params
+     * @return false|string
      */
     protected function pageContent($view, $params)
     {
-
+//        $params = [
+//            'name' => "AlmostLara",
+//            'subtitle' => "This is a nice way to learn PHP"
+//        ];
         // a smart way of creating variables dinamically
-
         // $name = $params['name'];
-
         foreach ($params as $key => $value) :
-            $$key = $value;
-
+            $$key = $value; // name = AlmostLara // $name = AlmostLara
         endforeach;
-
-        // echo "<pre>";
-        // print_r($params);
-        // echo "</pre>";
-        // exit;
-
 
         // start buffering
         ob_start();
@@ -212,7 +215,6 @@ class Router
         return ob_get_clean();
     }
 
- 
 
 
 }
