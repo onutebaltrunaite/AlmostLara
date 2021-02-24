@@ -40,6 +40,12 @@ class PostsController extends Controller
             $id = $urlParam['value'];
             // get post row 
             $post = $this->postModel->getPostById($id);
+
+
+            if ($post === false) return $this->render('404');
+
+
+
             // lets get user data by user_id
             $user = $this->userModel->getUserById($post->user_id);
 
