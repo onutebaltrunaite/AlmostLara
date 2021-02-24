@@ -49,6 +49,23 @@ class Router
      */
     public function get($path, $callback)
     {
+        // 12345678910
+        //"/post/{id}"
+        if (strpos($path, '{')):
+            $startPos = strpos($path, '{');
+            $endPos = strpos($path, '}'); 
+            $argName = substr($path, $startPos + 1, $endPos - $startPos - 1);   
+            $callback['urlParamName'] = $argName;
+            $path = substr($path, 0, $startPos - 1);
+
+        // echo "<pre>";
+        // var_dump($path);
+        // var_dump($this->routes);
+        // echo "</pre>";
+       
+        endif;
+
+
         $this->routes['get'][$path] = $callback;
     }
 
@@ -72,12 +89,18 @@ class Router
         $method = $this->request->method();
 
     //    echo "<pre>";
-    //    var_dump($this->routes);
+    //    print_r($path);
     //    echo "</pre>";
     //    exit;
 
         // trying to run a route from routes array
         $callback = $this->routes[$method][$path] ?? false;
+
+        // echo "<pre>";
+        // var_dump($this->routes);
+
+        // echo "</pre>";
+        // exit;
 
         // if there is no such route added, we say not exist
         if ($callback === false) :
@@ -99,15 +122,24 @@ class Router
             $instance = new $callback[0];
             Application::$app->controller = $instance;
             $callback[0] = Application::$app->controller;
+
+            //check if we have url arguments in callback array
+            if (isset($callback['urlParamName'])) :
+
+                $urlParamName = $callback['urlParamName'];
+                // make call back array with 2 members
+                array_splice($callback, 2, 1);
+
+            endif;
         endif;
 
         // echo "<pre>";
-        // var_dump($callback);
+        // print_r($callback);
         // echo "</pre>";
         // exit;
 
         // page dose exsist we call user function
-        return call_user_func($callback, $this->request);
+        return call_user_func($callback, $this->request, $urlParamName ?? null);
 
     }
     /**
