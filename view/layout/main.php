@@ -22,6 +22,7 @@
       <a class="nav-item nav-link" href="#">Home</a>
       <a class="nav-item nav-link" href="/about">About</a>
       <a class="nav-item nav-link" href="/contact">Contact</a>
+      <a class="nav-item nav-link" href="/posts">Posts</a>
     </div>
     <!-- when not logged in -->
     <?php if(!\app\core\Session::isUserLoggedIn()) : ?>

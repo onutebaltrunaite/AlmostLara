@@ -46,7 +46,7 @@ class PostModel
         // add values
         $this->db->bind(':title', $data['title']);
         $this->db->bind(':body', $data['body']);
-        $this->db->bind(':user_id', $data['user_id']);
+        $this->db->bind(':user_id', $_SESSION['user_id']);
 
         // make query
         if ($this->db->execute()) {
@@ -60,7 +60,7 @@ class PostModel
     // return false if not found
     public function getPostById($id)
     {
-        $this->db->query("SELECT * FROM posts WHERE id = :id");
+        $this->db->query("SELECT * FROM posts WHERE post_id = :id");
 
         $this->db->bind(':id', $id);
 

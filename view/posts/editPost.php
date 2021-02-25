@@ -1,0 +1,1 @@
+<h1>editing  post: <?php echo $id; ?></h1>
